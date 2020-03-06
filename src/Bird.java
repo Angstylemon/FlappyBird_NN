@@ -6,13 +6,13 @@ public class Bird extends PApplet {
 	protected final PApplet parent;
 	
 	public static int xPos = 300;
-	private static int yStarting = Sketch.height/2;
+	private static int yStarting = Sketch.HEIGHT/2;
 	
 	protected PVector pos;
 	protected PVector vel;
 	protected PVector acc;
 	
-	private static float size = 25;
+	private static float size = 15;
 	private PVector jump = new PVector(0, -15);
 	private int[] colour;
 	private static int[] DEFAULT_COLOUR = {255, 255, 0};
@@ -76,7 +76,7 @@ public class Bird extends PApplet {
 			vel.y = 20;
 		}
 		
-		if (pos.y + size/2 > Sketch.height) {
+		if (pos.y + size/2 > Sketch.HEIGHT) {
 			vel.y = 0;
 			status = "dead";
 			fitness /= 2;
@@ -110,11 +110,11 @@ public class Bird extends PApplet {
 		
 		if (status.equals("alive")) {
 			//Check if bird overlaps horizontally
-			if (pos.x + size/1.5 > pipeX - pipeWidth/2 && pos.x - size/1.5 < pipeX + pipeWidth/2) {
+			if (pos.x + size > pipeX - pipeWidth/2 && pos.x - size < pipeX + pipeWidth/2) {
 				//Check if bird overlaps vertically
-				if (pos.y - size/1.5 < top || pos.y + size/1.5 > bottom) {
+				if (pos.y - size < top || pos.y + size > bottom) {
 					status = "dead";
-					double adjust = fitness * Math.abs((p.gap() - pos.y)/Sketch.height);
+					double adjust = fitness * Math.abs((p.gap() - pos.y)/Sketch.HEIGHT);
 					
 					fitness -= adjust;
 					
@@ -134,7 +134,8 @@ public class Bird extends PApplet {
 	public void display() {
 		parent.noStroke();
 		parent.fill(colour[0], colour[1], colour[2]);
-		parent.circle(pos.x,  pos.y,  size*2);
+		parent.rectMode(CENTER);
+		parent.rect(pos.x, pos.y, size*2, size*2);
 	}
 	
 	public NeuralNetwork nn() {
@@ -147,15 +148,15 @@ public class Bird extends PApplet {
 	
 	public void process(Pipe p) {
 		double[] inputs = new double[_numInputs];
-		inputs[0] = (p.gap() - pos.y)/Sketch.height;
-		inputs[1] = (p.x() - pos.x)/Sketch.width;
+		inputs[0] = (p.gap() - pos.y)/Sketch.HEIGHT;
+		inputs[1] = (p.x() - pos.x)/Sketch.WIDTH;
 		
 		if (inputs.length > 2) {
 			inputs[2] = -vel.y/50;
 		}
 		
 		if (inputs.length > 3) {
-			inputs[3] = pos.y/Sketch.height;
+			inputs[3] = pos.y/Sketch.HEIGHT;
 		}
 		
 		double[] predict = dna.process(inputs);

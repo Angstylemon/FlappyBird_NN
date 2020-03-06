@@ -4,14 +4,14 @@ import processing.core.PVector;
 public class Pipe extends PApplet {
 	private PApplet parent;
 	
-	private static int width = 120;
+	private static final int WIDTH = 120;
 	private int gap;
 	private int top;
 	private int bottom;
 	private int gapOffset = 100;
 	private static int gapHeight = 90;
 	
-	private static int xStart = Sketch.width + width;
+	private static int xStart = Sketch.WIDTH + WIDTH;
 	private static float xVel = -5;
 	
 	protected PVector pos;
@@ -29,7 +29,7 @@ public class Pipe extends PApplet {
 		acc = new PVector(0, 0);
 		
 		int topLimit = gapOffset + gapHeight/2;
-		int bottomLimit = Sketch.height - gapOffset - gapHeight/2;
+		int bottomLimit = Sketch.HEIGHT - gapOffset - gapHeight/2;
 		int gapRange = bottomLimit - topLimit;
 		
 		gap = (int)(Math.random()*gapRange + topLimit);
@@ -90,6 +90,6 @@ public class Pipe extends PApplet {
 		parent.rectMode(CORNER);
 		
 		parent.rect(pos.x - width/2, 0, width, top);
-		parent.rect(pos.x - width/2, bottom, width, Sketch.height - bottom);
+		parent.rect(pos.x - width/2, bottom, width, Sketch.HEIGHT - bottom);
 	}
 }
