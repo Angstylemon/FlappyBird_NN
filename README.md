@@ -10,3 +10,5 @@ Author: Max Gurr
 =========================================================================
 
 core.jar must be included as an external .jar file
+
+The NeuralNetwork_Lib and Matrix_Lib source code must be imported
